@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="http://demos.telerik.com/kendo-ui/mobile-listview/local-virtualization">
+    <style>
+        html {
+            font-size: 12px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+    <title></title>
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.material.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.mobile.all.min.css" />
+
+    <script src="http://cdn.kendostatic.com/2015.1.429/js/jquery.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>
+</head>
+<body>
+    <script src="../customerView/customers.js"></script>
+
+    <div data-role="view" data-title="Clientes" data-layout="main" data-model="app.customerView" data-show="app.customerView.onShow">
+        <div data-role="view" data-init="mobileListViewLocalFiltering" data-title="Customers">
+            <header data-role="header">
+                <div data-role="navbar">
+                    <span data-role="view-title"></span>
+                    <a data-align="right" data-role="button" class="nav-button" href="#/">Index</a>
+                </div>
+            </header>
+
+            <ul id="local-filterable-listview"></ul>
+        </div>
+
+        <script type="text/x-kendo-tmpl" id="mobile-listview-filtering-template">
+            <div class="customer">
+                <h3>#:Name#</h3>
+            </div>
+        </script>
+
+        <script type="text/x-kendo-template" id="dataListViewModelTemplate">
+            <div class="image-with-text">
+                <h3><span class="#: data.icon() #"></span>#: data['Text'] #</h3>
+            </div>
+        </script>
+    </div>
+
+    <script>
+    function mobileListViewLocalFiltering() {
+        var dataSource = new kendo.data.DataSource({
+            data: customers,
+            schema: {
+                model: {
+                    fields: {
+                        CustNum: { type: "number" },
+                        Name: { type: "string" },
+                        State: { type: "string" },
+                        Country: { type: "string" }
+                    }
+                }
+            }
+        });
+
+        $("#local-filterable-listview").kendoMobileListView({
+            dataSource: dataSource,
+            template: $("#mobile-listview-filtering-template").text(),
+            filterable: {
+                field: "Name",
+                operator: "startswith"
+            },
+            virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
+            endlessScroll: true
+        });
+    }
+    </script>
+
+    <style>
+        .customer h3 {
+            font-size: 1.3em;
+            line-height: 1.4em;
+            margin: 0;
+            padding: 0;
+            height: 1.3em;
+            overflow: hidden;
+        }
+
+        .customer p {
+            font-size: 1em;
+            margin: 0;
+            padding: .3em 0 0;
+        }
+
+        .pullImage {
+            width: 64px;
+            height: 64px;
+            border-radius: 3px;
+            float: left;
+            margin-right: 10px;
+        }
+    </style>
+
+
+    <script>
+    var app = new kendo.mobile.Application(document.body);
+    </script>
+</body>
+</html>

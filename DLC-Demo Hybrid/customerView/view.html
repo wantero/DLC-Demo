@@ -1,0 +1,8 @@
+<div data-role="view" data-title="Clientes" data-layout="main" data-model="app.customerView" data-show="app.customerView.onShow">
+    <ul data-role="listview" data-style="inset" data-template="customerViewModelTemplate" data-bind="{ source: customerViewModel.dataSource, events: {click: customerViewModel.itemClick}}" data-pull-to-refresh="true" data-endless-scroll="false"></ul>
+    <script type="text/x-kendo-template" id="customerViewModelTemplate">
+        <div class="image-with-text">
+            <h3>#: data['Text'] #</h3>
+        </div>
+    </script>
+</div>
